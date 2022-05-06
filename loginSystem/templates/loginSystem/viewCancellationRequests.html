@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #inLine {
+                display: inline;
+            }
+        </style>
+    </head>
+    <body>
+    {% extends "loginSystem/layout.html" %}
+
+    {% block title%} View cancellation requests {% endblock %}
+
+    {% block content %}
+        <h1 style="color:white;">Click a cancellation ID to view its details</h1>
+        <ul style="color:white;">
+            {% for booking in ls %}
+                {% if booking.cancellationMarker == True %}
+                    <li>
+                        <form action="viewBookingData" method="POST" id="inLine">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{booking.booking_id}}>
+                            <input class="btn btn-primary" type="submit" value={{booking.booking_id}}>
+                        </form>
+                        
+                        <form action="processCancellationRequest" method="POST" id="inLine">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{booking.booking_id}}>
+                            <input class="btn btn-success" type="submit" value="Cancel Booking">
+                        </form>
+                        <form action="rejectBookingCancellation" method="POST" id="inLine">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{booking.booking_id}}>
+                            <input class="btn btn-danger" type="submit" value="Reject Cancellation Request">
+                        </form>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <a class="btn btn-primary" href="/cinemaManagerPage/">Go back</a>
+    {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "loginSystem/home.html" %}
+
+{% block navextra %}
+    <div class="navbar" style="background-color: #0A0A18; color: white">
+        <a href="{% url 'films' %}" class="navbar-brand">View Films</a>
+        <a href="" class="navbar-brand">View Clubs</a>
+    </div>
+
+    <body style="background-color: #0A0A18; color: white">
+        <div class="body-content">
+            {% block content2 %}
+            {% endblock %}
+            <hr/>
+        </div>
+    </body>
+{% endblock %}

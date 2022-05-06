@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #inLine {
+                display: inline;
+            }
+        </style>
+    </head>
+    <body style="background-color: #0A0A18; color: white">
+    {% extends "loginSystem/layout.html" %}
+
+    {% block title%} Applications List {% endblock %}
+
+    {% block content %}
+        <h1>Click a user to view their details</h1>
+        <ul>
+            {% for user in ls %}
+                {% if user.is_active == False%}
+                    <li>
+                        <form action="viewAppData" method="POST" id="inLine">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{user.id}}>
+                            {% comment %} {{user.username}} {% endcomment %}
+                            <input class="btn btn-primary" type="submit" value={{user.username}}>
+                        </form>
+                        
+                        <form action="acceptUserApplication" method="POST" id="inLine">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{user.id}}>
+                            <input class="btn btn-success" type="submit" value="Accept">
+                        </form>
+                        <form action="rejectUserApplication" method="POST" id="inLine">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{user.id}}>
+                            <input class="btn btn-danger" type="submit" value="Reject">
+                        </form>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <a class="btn btn-primary" href="/cinemaManagerPage/">Go back</a>
+    {% endblock %}
+    </body>
+</html>

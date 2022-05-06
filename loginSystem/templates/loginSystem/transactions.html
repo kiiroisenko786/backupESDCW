@@ -1,0 +1,117 @@
+{% extends "loginSystem/layout.html" %}
+{% load user_groups %}
+{% load transaction_tags %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+<body style="background-color: #0A0A18; color: white">
+    <h2>Transactions</h2>
+    <script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    {% if user|has_group:"AccountManager" %}
+        <form action="/transactions/" method="post">
+            {% csrf_token %}
+            {% if accounts %}
+                <label>Payee Account</label>
+                <select class="form-select" id="acc" name="account">
+                    <option value="....." selected>.....</option>
+                    <option value="no_user">Regular User</option>
+                    {% for account in accounts %}
+                        <option value="{{ account.id }}">{{ account.username }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+            <label>Start Date</label>
+            <input type="date" id="sd" name="start_date">
+            <label>Start Time</label>
+            <input type="time" id="st" name="start_time">
+            <label>End Date</label>
+            <input type="date" id="ed" name="end_date">
+            <label>End Time</label>
+            <input type="time" id="et" name="end_time">
+            <button type="submit" class="btn btn-default btn-info" value="Submit">Filter...</button>
+        </form>
+        {% if transactions %}
+        <form action="/download/" method="post">
+            {% csrf_token %}
+            {% for transaction in transactions %}
+                <input type="hidden" name="trans" value="{{ transaction.transactionID }}">
+            {% endfor %}
+            <input type="hidden" name="sum" value="£{{ transactions|sum_transactions }}">
+            <button type="submit" class="btn btn-default btn-success" value="Export">Export</button>
+        </form>
+        {% endif %}
+    {% endif %}
+
+    {% if transactions %}
+        <div>
+        <table class="table table-striped table-bordered table-hover table-dark table-sm" style="width: 100%">
+            <colgroup>
+                <col style="width: 1%;">
+                <col style="width: 1%;">
+                <col style="width: 1%;">
+                <col style="width: 1%;">
+                <col style="width: 1%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th style="text-align: center; background: #161623">
+                        <h3>Payee Account</h3>
+                    </th>
+                    <th style="text-align: center; background: #161623">
+                        <h3>Transaction Date</h3>
+                    </th>
+                    <th style="text-align: center; background: #161623">
+                        <h3>Transaction Purpose</h3>
+                    </th>
+                    <th style="text-align: center; background: #161623">
+                        <h3>Currency/Type</h3>
+                    </th>
+                    <th style="text-align: center; background: #161623">
+                        <h3>Total Spent</h3>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td style="text-align: center;">
+                        <p>{{ transaction.payee }}</p>
+                    </td>
+                    <td style="text-align: center;">
+                        <p>{{ transaction.date }}</p>
+                    </td>
+                    <td style="text-align: center;">
+                        <p>{{ transaction.transactionPurpose }}</p>
+                    </td>
+                    <td style="text-align: center;">
+                        <p>{{ transaction.transactionType }}</p>
+                    </td>
+                    <td style="text-align: center;">
+                        <p>{{ transaction.transactionTotal }}</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="background: #0A0A18"></td>
+                    <td style="background: #0A0A18"></td>
+                    <td style="background: #0A0A18"></td>
+                    <td style="text-align: centre; background: #161623">
+                        <h5 style="text-align: center;">Sum</h5>
+                    </td>
+                    <td style="text-align: centre; background: #161623">
+                        <h5 style="text-align: center;">£{{ transactions|sum_transactions }}</h5>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+    {% else %}
+        <h3>Transactions currently unavailable.</h3>
+    {% endif %}
+</body>
+{% endblock %}

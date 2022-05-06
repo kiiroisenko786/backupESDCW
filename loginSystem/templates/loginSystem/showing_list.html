@@ -1,0 +1,62 @@
+{% extends "loginSystem/layout.html" %}
+{% load user_groups %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+<body style="background-color: #0A0A18; color: white">
+    <h2>Current showings</h2>
+    <script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css'
+    media="screen" />
+    {% if user|has_group:"CinemaManager" %}
+        <form action="/addShowingPage" method="get">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-default btn-info" value="addShowingPage">Add Showing</button>
+        </form>
+    {% endif %}
+    {% if showing_list %}
+    
+        {% for showing in showing_list %}
+        <div class="col-sm-5 col-md-5" style="border: 5px solid #eee; margin: 20px">
+            <div>
+                {% if showing.film.image %}
+                <div class="col-sm-8 col-md-4 col-xs-8" style="padding: 5px">
+                    <img alt="" src="{{ showing.film.image.url }}" style="height: 150px;
+                width: 150px" />
+                </div>
+                {% endif %}
+                <div class="col-sm-8 col-md-8 col-xs-16">
+                    <label>Film Title</label><h4>
+                        {{ showing.film.title }}
+                    </h4>
+                    <label>Screen</label><p>
+                        {{ showing.screen.number }}
+                    </p>
+                    <label>Start time</label><p>
+                        {{ showing.start_time }}
+                    </p>
+                    <label>Duration</label><p>
+                        {{ showing.film.duration }}
+                    </p>
+                </div>
+                {% if user|has_group:"CinemaManager" %}
+                </div>
+                    <div class="col-sm-8 col-md-8 col-xs-16">
+                        <form action="/deleteShowing/" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="showing_id" value="{{ showing.showing_id }}">
+                            <input class="btn btn-default btn-danger" type="submit" value="Delete"/>
+                        </form>
+                        <a class="btn btn-default btn-danger" href ="{% url 'editShowings' showing.showing_id %}">EDIT</a>
+                    </div>
+        {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Showings currently unavailable.</p>
+    {% endif %}
+</body>
+{% endblock %}

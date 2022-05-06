@@ -1,0 +1,16 @@
+{% extends "loginSystem/layout.html" %}
+
+{% block content %}
+    <div class="navbar" style="color: white">
+        <a href="/accounts/" class="navbar-brand">View Account Details</a>
+        <a href="/transactions/" class="navbar-brand">View Transactions</a>
+    </div>
+
+    <body style="background-color: #0A0A18; color: white">
+        <div class="body-content">
+            {% block content2 %}
+            {% endblock %}
+            <hr/>
+        </div>
+    </body>
+{% endblock %}

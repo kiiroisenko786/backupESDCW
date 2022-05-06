@@ -1,0 +1,66 @@
+{% extends "loginSystem/layout.html" %}
+{% load user_groups %}
+{% load credit_pricing %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+<body style="background-color: #0A0A18; color: white">
+    <h2>Your Booking Has Been Confirmed</h2>
+    <script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
+
+    <div class="col-sm-5 col-md-5 col-sm-5" style="border: 5px solid #eee; margin: 20px">
+        <div>
+            <div class="col-sm-4 col-md-4 col-xs-8" style="padding: 5px">
+                <img alt="" src="{{ showing.film.image.url }}" style="height: 150px;
+                width: 150px" />
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    Film: {{ showing.film.title }}
+                </h4>
+                <h4>
+                    Screen: {{ showing.screen.number }}
+                </h4>
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    Start Time: {{ showing.start_time }}
+                </h4>
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                {% if user.is_authenticated %}
+                <h4>
+                    Total Price: {{ total }} credits
+                </h4>
+                {% else %}
+                <h4>
+                    Total Price: £{{ total }}0
+                </h4>
+                {% endif %}
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    Seats:
+                </h4>
+                {% for seat in seats %}
+                <p>{{ seat.row }}{{ seat.column }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3>
+            Please keep a record of the following information
+        </h3>
+        <h4>
+            This is necessary in case you need to cancel
+        </h4>
+    </div>
+    <div class="col-sm-5 col-md-5 col-sm-5" style="border: 5px solid #eee; margin: 20px">
+        <h4>Booking ID: {{ booking_id }}</h4>
+    </div>
+</body>
+{% endblock %}

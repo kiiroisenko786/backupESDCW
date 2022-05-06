@@ -1,0 +1,111 @@
+.header {
+    background: url("static/img/banner.png");
+    color: white;
+    height: 120px;
+    padding: 8px 5px 8px 5px;
+}
+
+.message {
+    font-weight: 600;
+    color: blue;
+}
+
+.navbar {
+    background-color: lightcoral;
+    font-size: 1em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+    padding: 8px 5px 8px 5px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar-brand {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.navbar-item {
+    font-variant: small-caps;
+    margin-left: 30px;
+}
+
+.body-content {
+    padding: 5px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input[name=message] {
+    width: 80%;
+}
+
+input.rounded {
+    border: 1px solid #ccc;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 2px 2px 3px #666;
+    -webkit-box-shadow: 2px 2px 3px #666;
+    box-shadow: 2px 2px 3px #666;
+    font-size: 20px;
+    padding: 4px 7px;
+    outline: 0;
+    -webkit-appearance: none;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    display: inline-block;
+    clear: left;
+    width: 300px;
+    text-align: left;
+    float: centre;
+}
+
+.label {
+    font-size: 20px;
+    padding: 4px 7px;
+    outline: 0;
+    -webkit-appearance: none;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: inline-block;
+    clear: left;
+    width: 300px;
+    text-align: left;
+    float: centre;
+}
+
+.button {
+    border: 1px solid #ccc;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-box-shadow: 2px 2px 3px #666;
+    -webkit-box-shadow: 2px 2px 3px #666;
+    box-shadow: 2px 2px 3px #666;
+    font-size: 20px;
+    padding: 4px 7px;
+    outline: 0;
+    -webkit-appearance: none;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    display: inline-block;
+    clear: left;
+    width: 320px;
+    text-align: centre;
+    float: centre;
+
+}
+
+.message_list th,td {
+    text-align: left;
+    padding-right: 15px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 10px;
+}

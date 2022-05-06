@@ -1,0 +1,101 @@
+{% extends "loginSystem/layout.html" %}
+{% load user_groups %}
+{% load credit_pricing %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+<body style="background-color: #0A0A18; color: white">
+    <h2>Confirm Your Booking</h2>
+    <script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
+
+    <div class="col-sm-5 col-md-5 col-sm-5" style="border: 5px solid #eee; margin: 20px">
+        <div>
+            <div class="col-sm-4 col-md-4 col-xs-8" style="padding: 5px">
+                <img alt="" src="{{ showing.film.image.url }}" style="height: 150px;
+                width: 150px" />
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    Film: {{ showing.film.title }}
+                </h4>
+                <h4>
+                    Screen: {{ showing.screen.number }}
+                </h4>
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    Start Time: {{ showing.start_time }}
+                </h4>
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                {% if user.is_authenticated %}
+                <h4>
+                    Total Price: {{ total_price|get_price_cred }} credits
+                </h4>
+                {% else %}
+                <h4>
+                    Total Price: £{{ total_price }}0
+                </h4>
+                {% endif %}
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    Seats:
+                </h4>
+                {% for seat in names %}
+                <p>{{ seat }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+        <div>
+            {% if num_seats != 0 %}
+                <label>Current Account Balance:</label>
+                <input type="text" value="{{ user_credits }}" disabled>
+                <form action="/topUp/" method="POST">
+                    {% csrf_token %}
+                    <input class="btn btn-default btn-info" type="submit" value="Top-up">
+                </form>
+                {% if user|check_balance:total_price %}
+                    <form action="/bookingConfirmed/" method="POST">
+                        {% csrf_token %}
+                        {% for seat in bseats %}
+                            <input type="hidden" name="seats" value="{{ seat }}">
+                        {% endfor %}
+                        <input type="hidden" name="total" value="{{total_price|get_price_cred}}">
+                        <input type="hidden" name="showing_id" value="{{ showing.showing_id }}">
+                        <input type="hidden" name="type" value="credit">
+                        <label>E-mail Address [optional] </label><div><input type="email" name="confirmation_address"></div>
+                        <div><input class="btn btn-default btn-success" type="submit" value="Check out"></div>
+                    </form>
+                {% endif %}
+            {% else %}
+                <label>Please go back and select seats for your booking</label>
+            {% endif %}
+        </div>
+        {% else %}
+        <div>
+            {% if num_seats != 0 %}
+            <form action="/payWithCard/" method="POST">
+                {% csrf_token %}
+                {% for seat in bseats %}
+                <input type="hidden" name="booked_seats" value="{{ seat }}">
+                {% endfor %}
+                <input type="hidden" name="amount_to_pay" value="{{ total_price }}">
+                <input type="hidden" name="showing_id" value="{{ showing.showing_id }}">
+                <input type="hidden" name="type" value="payment">
+                <label>E-mail Address [optional] </label><div><input type="email" name="address"></div>
+                <div><input class="btn btn-default btn-info" type="submit" value="Check out"></div>
+            </form>
+            {% else %}
+                <label>Please go back and select seats for your booking</label>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+{% endblock %}

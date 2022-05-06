@@ -1,0 +1,28 @@
+{% extends "loginSystem/layout.html" %}
+
+{% block title %}Top up Credits {% endblock %}
+<head>
+    <script>
+        function setTwoNumberDecimal(event) {
+            this.value = parseFloat(this.value).toFixed(2);
+        }
+
+        creditInput.onChange = setTwoNumberDecimal
+    </script>
+
+</head>
+{% block content %}
+<body style="background-color: #0A0A18; color: white">
+    <h3>Top up credits</h3>
+
+    <h4>{{user.username}}, your balance is: {{user_credits}}</h4>
+
+    <form method="POST" action="/topUpPayment/">
+        {% csrf_token %}
+        <label>Credits to add:</label><input class="rounded" type="number" name="creditInput" min="0" max="10000" step="1" value="0" pattern="^\d*(\.\d{0,2})?$">
+        <input type="hidden" name="id" value={{user.id}}>
+        <input class="btn btn-success" type="submit" value="Submit">
+    </form>
+
+    {% endblock %}
+</body>

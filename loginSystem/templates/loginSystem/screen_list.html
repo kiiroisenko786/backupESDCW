@@ -1,0 +1,56 @@
+{% extends "loginSystem/layout.html" %}
+{% load user_groups %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+<body style="background-color: #0A0A18; color: white">
+    <h2>Current screens</h2>
+    <script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css'
+    media="screen" />
+    {% if user|has_group:"CinemaManager" %}
+        <form action="/addScreenPage" method="get">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="rounded" value="addScreenPage">Add Screen</button>
+        </form>
+    {% endif %}
+    {% if screen_list %}
+    
+        {% for screen in screen_list %}
+        <div class="col-sm-5 col-md-5" style="border: 5px solid #eee; margin: 20px">
+            <div>
+                <div class="col-sm-8 col-md-8 col-xs-16">
+                    <label>Number</label><h4>
+                        {{ screen.number }}
+                    </h4>
+                    <label>Social distancing?</label><p>
+                        {{ screen.social_distancing }}
+                    </p>
+                </div>
+            </div>
+            {% if user|has_group:"CinemaManager" %}
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <form action="/deleteScreen/" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="screen_id" value="{{ screen.screen_id }}">
+                    <input class="btn btn-default btn-danger" type="submit" value="Delete"/>
+                </form>
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <form action="/buildSeats/" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="screen_id" value="{{ screen.screen_id }}">
+                    <input class="btn btn-default btn-info" type="submit" value="Build Seats..."/>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Screens currently unavailable.</p>
+    {% endif %}
+</body>
+{% endblock %}

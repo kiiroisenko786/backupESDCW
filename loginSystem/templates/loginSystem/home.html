@@ -1,0 +1,40 @@
+{% extends "loginSystem/layout.html" %}
+
+{% block navextra %}
+{% endblock %}
+{% block content %}
+<body style="color: white">
+{% if film_list %}
+
+    {% for film in film_list %}
+    {% if film.image %}
+    <div class="col-sm-5 col-md-5 col-sm-5" style="border: 5px solid #292944; margin: 20px; background-color: #161623">
+        <div>
+            <div class="col-sm-4 col-md-4 col-xs-8" style="padding: 5px">
+                <img alt="" src="{{ film.image.url }}" style="height: 150px;
+                width: 150px" />
+            </div>
+            <div class="col-sm-8 col-md-8 col-xs-16">
+                <h4>
+                    {{ film.title }}
+                </h4>
+                <p>
+                    {{ film.description }}
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-8 col-xs-16">
+            <form action="/filmShowings/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="film_id" value="{{ film.film_id }}">
+                <input class="btn btn-default btn-info" type="submit" value="View Showings"/>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+        <p>Films currently unavailable.</p>
+    {% endif %}
+</body>
+{% endblock %}

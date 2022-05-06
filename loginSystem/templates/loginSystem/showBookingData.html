@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% extends "loginSystem/layout.html" %}
+
+        {% block title%} Booking details {% endblock %}
+
+        {% block content %}
+            <h1 style="color:white;">Booking details</h1>
+            <h3 style="color:white;"> Email (if any registed): {{booking.associatedEmail}}</h3>
+            <h3 style="color:white;"> Seat: {{booking.booking_seats.column}}</h3>
+            <h3 style="color:white;"> Spent: {{booking.total_spent}}</h3>
+
+            <a class="btn btn-primary" href="/viewCancellationRequests">Go back</a>
+        {% endblock %}
+    </body>
+</html>
