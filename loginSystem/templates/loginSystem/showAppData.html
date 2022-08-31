@@ -3,16 +3,13 @@
 {% block title%} User details {% endblock %}
 
 {% block content %}
-    <h1>User details</h1>
-    <h3> Username: {{user.username}}</h3>
-    <h3> First Name: {{user.firstname}}</h3>
-    <h3> Last Name: {{user.lastname}}</h3>
-    <h3> Email: {{user.email}}</h3>
-    <h3> Date of Birth: {{user.date_of_birth}}</h3>
-    <h3> Club: {{user.clubChoice}}</h3>
+    <h1 style="color:white;">User details</h1>
+    <h3 style="color:white;"> Username: {{user.username}}</h3>
+    <h3 style="color:white;"> First Name: {{user.firstname}}</h3>
+    <h3 style="color:white;"> Last Name: {{user.lastname}}</h3>
+    <h3 style="color:white;"> Email: {{user.email}}</h3>
+    <h3 style="color:white;"> Date of Birth: {{user.date_of_birth}}</h3>
+    <h3 style="color:white;"> Club: {{user.clubChoice}}</h3>
 
     <a class="btn btn-primary" href="/applications">Go back</a>
-    {% comment %} <p>{{user.username}}</p>
-    <p>{{user.email}}</p>
-    <p>{{user.clubChoice}}</p> {% endcomment %}
 {% endblock %}

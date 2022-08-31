@@ -140,14 +140,17 @@ def emailBuilder(requestType, receiver_email, *booking_id):
     part1 = MIMEText(acceptText, "html")
     message.attach(part1)
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login(sender_email, password)
-        try:
-            print(f'Request type: {requestType}\n {message.as_string()}')
-            server.sendmail(
-                sender_email, receiver_email, message.as_string()
-            )
-            print("Email has been sent")
-        except smtplib.SMTPRecipientsRefused:
-            print("No email sent, erroneous email provided")
+    try:
+      with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+          server.login(sender_email, password)
+          try:
+              print(f'Request type: {requestType}\n {message.as_string()}')
+              server.sendmail(
+                  sender_email, receiver_email, message.as_string()
+              )
+              print("Email has been sent")
+          except smtplib.SMTPRecipientsRefused:
+              print("No email sent, erroneous email provided")
+    except Exception as e:
+      print(e)
     server.close()
